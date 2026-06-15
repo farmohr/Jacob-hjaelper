@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+
+<html lang="da">
+
+<head>
+
+  <meta charset="UTF-8" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+
+  <title>Hurtig hjælp</title>
+
+  <link rel="preconnect" href=https://fonts.googleapis.com>
+
+  <link rel="preconnect" href=https://fonts.gstatic.com crossorigin>
+
+  <link href=https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap rel="stylesheet">
+
+  <style>
+
+    :root{
+
+      --bg:#E8E5E0;
+
+      --surface:#EFECE6;
+
+      --surface-deep:#E2DED8;
+
+      --shadow-dark:#C8C3BA;
+
+      --shadow-light:#FFFFFF;
+
+      --text:#4F4B45;
+
+      --text-muted:#8A8479;
+
+      --accent:#7E90E0;
+
+      --accent-deep:#6577C8;
+
+      --green:#74C69D;
+
+      --amber:#F0B860;
+
+      --red:#E2786E;
+
+      --radius:24px;
+
+    }
+
+    *{box-sizing:border-box;}
+
+    html,body{height:100%;}
+
+    body{
+
+      margin:0;
+
+      min-height:100vh;
+
+      display:flex;
+
+      align-items:center;
+
+      justify-content:center;
+
+      background:radial-gradient(circle at 30% 0%, #ECE9E3 0%, var(--bg) 65%);
+
+      color:var(--text);
+
+      font-family:'Inter',sans-serif;
+
+      padding:24px;
+
+      -webkit-font-smoothing:antialiased;
+
+    }
+
+ 
+
+    .app{
+
+      width:100%;
+
+      max-width:440px;
+
+      background:var(--bg);
+
+      border-radius:32px;
+
+      padding:32px 28px;
+
+      box-shadow:16px 16px 32px var(--shadow-dark), -16px -16px 32px var(--shadow-light);
+
+      position:relative;
+
+      overflow:hidden;
+
+    }
+
+ 
+
+    header{
+
+      display:flex;
+
+      align-items:center;
+
+      justify-content:space-between;
+
+      margin-bottom:28px;
+
+    }
+
+    .header-left{display:flex;align-items:center;gap:12px;}
+
+    .beacon-socket{
+
+      width:28px;height:28px;border-radius:50%;
+
+      background:var(--surface-deep);
+
+      box-shadow:inset 3px 3px 6px var(--shadow-dark), inset -3px -3px 6px var(--shadow-light);
+
+      display:flex;align-items:center;justify-content:center;
+
+      flex-shrink:0;
+
+    }
+
+    .beacon{
+
+      width:10px;height:10px;border-radius:50%;
+
+      background:var(--text-muted);
+
+      transition:background .4s ease;
+
+    }
+
+    .beacon.green{background:var(--green); --glow:rgba(116,198,157,.55); animation:pulse 2.2s ease-in-out infinite;}
+
+    .beacon.amber{background:var(--amber); --glow:rgba(240,184,96,.55); animation:pulse 1.6s ease-in-out infinite;}
+
+    .beacon.red{background:var(--red); --glow:rgba(226,120,110,.6); animation:pulse 1s ease-in-out infinite;}
+
+    @keyframes pulse{
+
+      0%,100%{box-shadow:0 0 0 0 var(--glow);}
+
+      50%{box-shadow:0 0 0 6px var(--glow);}
+
+    }
+
+    .eyebrow{
+
+      font-family:'JetBrains Mono',monospace;
+
+      font-size:11px;
+
+      letter-spacing:.14em;
+
+      text-transform:uppercase;
+
+      color:var(--text-muted);
+
+      margin:0;
+
+    }
+
+    .progress{display:flex;gap:6px;}
+
+    .dot{width:6px;height:6px;border-radius:50%;background:var(--shadow-dark);transition:background .25s ease;}
+
+    .dot.active{background:var(--accent);}
+
+    .dot.done{background:var(--text-muted);}
+
+ 
+
+    .step{
+
+      display:none;
+
+      flex-direction:column;
+
+      opacity:0;
+
+      transform:translateY(10px);
+
+      transition:opacity .2s ease, transform .2s ease;
+
+    }
+
+    .step.active{display:flex; opacity:1; transform:translateY(0);}
+
+    .step.leaving{opacity:0; transform:translateY(-10px);}
+
+    .done-wrap{align-items:center; text-align:center;}
+
+ 
+
+    h1{
+
+      font-family:'Quicksand',sans-serif;
+
+      font-size:21px;
+
+      font-weight:700;
+
+      margin:0 0 18px;
+
+      letter-spacing:-.01em;
+
+    }
+
+ 
+
+    .back{
+
+      display:flex;align-items:center;gap:6px;
+
+      background:none;border:none;color:var(--text-muted);
+
+      font-family:'Inter',sans-serif;font-size:13px;font-weight:500;
+
+      cursor:pointer;padding:0;margin-bottom:18px;width:fit-content;
+
+      transition:color .15s ease;
+
+    }
+
+    .back:hover{color:var(--text);}
+
+    .back svg{width:14px;height:14px;}
+
+ 
+
+    .list{display:flex;flex-direction:column;gap:12px;}
+
+    .urgency-list{display:flex;flex-direction:column;gap:12px;}
+
+ 
+
+    .pill,.urgency{
+
+      display:flex;align-items:center;gap:14px;
+
+      background:var(--surface);
+
+      border:none;
+
+      border-radius:18px;
+
+      padding:16px 18px;
+
+      text-align:left;
+
+      color:var(--text);
+
+      cursor:pointer;
+
+      font-family:'Inter',sans-serif;
+
+      box-shadow:6px 6px 14px var(--shadow-dark), -6px -6px 14px var(--shadow-light);
+
+      transition:box-shadow .15s ease, transform .1s ease;
+
+    }
+
+    .pill:hover,.urgency:hover{
+
+      box-shadow:8px 8px 18px var(--shadow-dark), -8px -8px 18px var(--shadow-light);
+
+      transform:translateY(-1px);
+
+    }
+
+    .pill:active,.urgency:active{
+
+      box-shadow:inset 4px 4px 10px var(--shadow-dark), inset -4px -4px 10px var(--shadow-light);
+
+      transform:translateY(0);
+
+    }
+
+    .pill:focus-visible,.urgency:focus-visible{
+
+      outline:2px solid var(--accent); outline-offset:2px;
+
+    }
+
+ 
+
+    .pill-icon{
+
+      width:40px;height:40px;border-radius:50%;
+
+      background:var(--surface-deep);
+
+      box-shadow:inset 2px 2px 5px var(--shadow-dark), inset -2px -2px 5px var(--shadow-light);
+
+      display:flex;align-items:center;justify-content:center;
+
+      flex-shrink:0;
+
+    }
+
+    .pill-icon svg{width:20px;height:20px;color:var(--text-muted);transition:color .15s ease;}
+
+    .pill:hover .pill-icon svg{color:var(--accent);}
+
+    .pill-label{font-family:'Quicksand',sans-serif;font-weight:600;font-size:15.5px;}
+
+ 
+
+    .u-dot{width:16px;height:16px;border-radius:50%;flex-shrink:0;}
+
+    .urgency.green .u-dot{background:var(--green);box-shadow:0 0 0 5px rgba(116,198,157,.25);}
+
+    .urgency.amber .u-dot{background:var(--amber);box-shadow:0 0 0 5px rgba(240,184,96,.25);}
+
+    .urgency.red .u-dot{background:var(--red);box-shadow:0 0 0 5px rgba(226,120,110,.25);}
+
+    .u-text strong{display:block;font-family:'Quicksand',sans-serif;font-size:15.5px;font-weight:700;margin-bottom:2px;}
+
+    .u-text small{display:block;color:var(--text-muted);font-size:12.5px;}
+
+ 
+
+    label{display:block;font-size:13px;font-weight:500;color:var(--text-muted);margin-bottom:8px;}
+
+    .optional{
+
+      font-family:'JetBrains Mono',monospace;font-size:10px;
+
+      text-transform:uppercase;letter-spacing:.08em;
+
+      color:var(--text-muted);opacity:.8;margin-left:6px;
+
+    }
+
+    input,textarea{
+
+      width:100%;
+
+      background:var(--surface-deep);
+
+      border:none;
+
+      border-radius:16px;
+
+      padding:14px 16px;
+
+      color:var(--text);
+
+      font-family:'Inter',sans-serif;
+
+      font-size:14.5px;
+
+      margin-bottom:18px;
+
+      box-shadow:inset 4px 4px 8px var(--shadow-dark), inset -4px -4px 8px var(--shadow-light);
+
+      transition:box-shadow .15s ease;
+
+    }
+
+    input::placeholder,textarea::placeholder{color:var(--text-muted);opacity:.85;}
+
+    input:focus,textarea:focus{
+
+      outline:none;
+
+      box-shadow:inset 4px 4px 8px var(--shadow-dark), inset -4px -4px 8px var(--shadow-light), 0 0 0 2px var(--accent);
+
+    }
+
+    input.invalid{
+
+      box-shadow:inset 4px 4px 8px var(--shadow-dark), inset -4px -4px 8px var(--shadow-light), 0 0 0 2px var(--red);
+
+    }
+
+    textarea{resize:vertical;min-height:84px;font-family:'Inter',sans-serif;}
+
+ 
+
+    .btn{
+
+      width:100%;
+
+      padding:16px;
+
+      border-radius:18px;
+
+      border:none;
+
+      font-family:'Quicksand',sans-serif;
+
+      font-weight:700;
+
+      font-size:15px;
+
+      cursor:pointer;
+
+      display:flex;align-items:center;justify-content:center;gap:8px;
+
+      transition:box-shadow .12s ease, transform .1s ease, opacity .15s ease;
+
+    }
+
+    .btn-primary{
+
+      background:var(--accent); color:#FBFAF8;
+
+      box-shadow:6px 6px 14px var(--shadow-dark), -6px -6px 14px var(--shadow-light);
+
+    }
+
+    .btn-primary:hover{box-shadow:8px 8px 18px var(--shadow-dark), -8px -8px 18px var(--shadow-light); transform:translateY(-1px);}
+
+    .btn-primary:active{box-shadow:inset 4px 4px 10px var(--accent-deep), inset -4px -4px 10px #ABB7F0; transform:translateY(0);}
+
+    .btn-primary:disabled{opacity:.65; cursor:default; transform:none;}
+
+    .btn-secondary{
+
+      background:var(--surface); color:var(--text);
+
+      box-shadow:6px 6px 14px var(--shadow-dark), -6px -6px 14px var(--shadow-light);
+
+      margin-top:8px;
+
+    }
+
+    .btn-secondary:hover{box-shadow:8px 8px 18px var(--shadow-dark), -8px -8px 18px var(--shadow-light); transform:translateY(-1px);}
+
+    .btn-secondary:active{box-shadow:inset 4px 4px 10px var(--shadow-dark), inset -4px -4px 10px var(--shadow-light); transform:translateY(0);}
+
+ 
+
+    .error-hint{color:var(--red);font-size:12.5px;margin-top:-8px;margin-bottom:14px;}
+
+ 
+
+    .check-circle{
+
+      width:64px;height:64px;border-radius:50%;
+
+      background:var(--surface-deep);
+
+      box-shadow:inset 4px 4px 8px var(--shadow-dark), inset -4px -4px 8px var(--shadow-light);
+
+      display:flex;align-items:center;justify-content:center;
+
+      margin-bottom:18px;
+
+    }
+
+    .check-circle svg{
+
+      width:28px;height:28px;color:var(--green);
+
+      stroke-dasharray:24;stroke-dashoffset:24;
+
+      animation:draw .5s ease forwards .15s;
+
+    }
+
+    @keyframes draw{to{stroke-dashoffset:0;}}
+
+ 
+
+    .summary{
+
+      font-family:'Quicksand',sans-serif;font-weight:600;
+
+      font-size:16px;color:var(--text);
+
+      margin:0 0 10px; line-height:1.45;
+
+    }
+
+    .ref{
+
+      font-family:'JetBrains Mono',monospace;
+
+      font-size:12px;color:var(--text-muted);
+
+      margin:0 0 22px;
+
+    }
+
+    .ref span{color:var(--text);}
+
+ 
+
+    .countdown-track{
+
+      width:100%;height:8px;border-radius:8px;
+
+      background:var(--surface-deep);
+
+      box-shadow:inset 2px 2px 4px var(--shadow-dark), inset -2px -2px 4px var(--shadow-light);
+
+      overflow:hidden;
+
+      margin-bottom:8px;
+
+    }
+
+    .countdown-fill{
+
+      height:100%;width:100%;
+
+      background:var(--accent);
+
+      border-radius:8px;
+
+      transition:width 1s linear;
+
+    }
+
+    .countdown-text{
+
+      font-family:'JetBrains Mono',monospace;
+
+      font-size:11.5px;color:var(--text-muted);
+
+      margin:0 0 20px;
+
+    }
+
+ 
+
+    @media (prefers-reduced-motion: reduce){
+
+      *{animation:none !important; transition:none !important;}
+
+    }
+
+    @media (max-width:380px){
+
+      .app{padding:24px 20px;}
+
+      .list,.urgency-list{gap:10px;}
+
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <div class="app">
+
+    <header>
+
+      <div class="header-left">
+
+        <div class="beacon-socket"><div class="beacon" id="beacon"></div></div>
+
+        <p class="eyebrow">Hurtig hjælp</p>
+
+      </div>
+
+      <div class="progress" id="progress">
+
+        <span class="dot active" data-dot="1"></span>
+
+        <span class="dot" data-dot="2"></span>
+
+        <span class="dot" data-dot="3"></span>
+
+      </div>
+
+    </header>
+
+ 
+
+    <!-- Trin 1: emne -->
+
+    <section class="step active" data-step="1">
+
+      <h1>Hvad handler det om?</h1>
+
+      <div class="list">
+
+        <button class="pill" type="button" data-theme="JOSA">
+
+          <span class="pill-icon">
+
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4.5-8 4.5-8-4.5L12 3z"/><path d="M4 12l8 4.5L20 12"/><path d="M4 16l8 4.5L20 16"/></svg>
+
+          </span>
+
+          <span class="pill-label">JOSA</span>
+
+        </button>
+
+        <button class="pill" type="button" data-theme="Udstyr &amp; Printer">
+
+          <span class="pill-icon">
+
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 8V3h10v5"/><rect x="4" y="8" width="16" height="7" rx="1.5"/><rect x="7" y="14" width="10" height="6" rx="1"/></svg>
+
+          </span>
+
+          <span class="pill-label">Udstyr &amp; Printer</span>
+
+        </button>
+
+        <button class="pill" type="button" data-theme="Andre programmer">
+
+          <span class="pill-icon">
+
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/></svg>
+
+          </span>
+
+          <span class="pill-label">Andre programmer</span>
+
+        </button>
+
+        <button class="pill" type="button" data-theme="Praktisk hjælp">
+
+          <span class="pill-icon">
+
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.5"/><line x1="12" y1="3" x2="12" y2="8.2"/><line x1="12" y1="15.8" x2="12" y2="21"/><line x1="3" y1="12" x2="8.2" y2="12"/><line x1="15.8" y1="12" x2="21" y2="12"/></svg>
+
+          </span>
+
+          <span class="pill-label">Praktisk hjælp</span>
+
+        </button>
+
+        <button class="pill" type="button" data-theme="Andet">
+
+          <span class="pill-icon">
+
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="12" r="1.4" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.4" fill="currentColor" stroke="none"/><circle cx="19" cy="12" r="1.4" fill="currentColor" stroke="none"/></svg>
+
+          </span>
+
+          <span class="pill-label">Andet</span>
+
+        </button>
+
+      </div>
+
+    </section>
+
+ 
+
+    <!-- Trin 2: hastighed -->
+
+    <section class="step" data-step="2">
+
+      <button class="back" type="button" data-back>
+
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+
+        Tilbage
+
+      </button>
+
+      <h1>Hvor akut er det?</h1>
+
+      <div class="urgency-list">
+
+        <button class="urgency green" type="button" data-level="green">
+
+          <span class="u-dot"></span>
+
+          <span class="u-text"><strong>Ingen hast</strong><small>Når du har tid</small></span>
+
+        </button>
+
+        <button class="urgency amber" type="button" data-level="amber">
+
+          <span class="u-dot"></span>
+
+          <span class="u-text"><strong>I dag</strong><small>Det ville hjælpe at få det løst i dag</small></span>
+
+        </button>
+
+        <button class="urgency red" type="button" data-level="red">
+
+          <span class="u-dot"></span>
+
+          <span class="u-text"><strong>Akut</strong><small>Det blokerer for mig lige nu</small></span>
+
+        </button>
+
+      </div>
+
+    </section>
+
+ 
+
+    <!-- Trin 3: detaljer -->
+
+    <section class="step" data-step="3">
+
+      <button class="back" type="button" data-back>
+
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+
+        Tilbage
+
+      </button>
+
+      <h1>Dit navn</h1>
+
+      <input type="text" id="nameInput" placeholder="Så Jacob ved, hvem der spørger" maxlength="60" />
+
+      <p class="error-hint" id="errorHint" hidden>Kunne ikke sendes automatisk — prøv igen, eller kontakt direkte.</p>
+
+      <button class="btn btn-primary" type="button" id="sendBtn">Send</button>
+
+    </section>
+
+ 
+
+    <!-- Trin 4: kvittering -->
+
+    <section class="step done-wrap" data-step="done">
+
+      <div class="check-circle">
+
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>
+
+      </div>
+
+      <h1>Sendt!</h1>
+
+      <p class="summary" id="summaryText"></p>
+
+      <div class="countdown-track"><div class="countdown-fill" id="countdownFill"></div></div>
+
+      <p class="countdown-text" id="countdownText"></p>
+
+      <button class="btn btn-secondary" type="button" id="resetBtn">Send en ny anmodning nu</button>
+
+    </section>
+
+  </div>
+
+ 
+
+<script>
+
+// ---------------------------------------------------------------
+
+// OPSÆTNING — læs dette før du deler siden
+
+// ---------------------------------------------------------------
+
+// 1. Installer den gratis ntfy-app (iOS/Android), eller brug
+
+//    ntfy.sh/app i en browser-fane på din telefon.
+
+// 2. Vælg et "emnenavn" (topic) kun du kender, fx
+
+//    "anna-hjaelp-7f3q9". Alle der kender det eksakte navn kan
+
+//    sende til det, så gør det langt og svært at gætte — undgå
+
+//    bare dit eget navn.
+
+// 3. Abonner på præcis det emne i appen.
+
+// 4. Udskift NTFY_TOPIC herunder med samme navn, gem filen, og
+
+//    del/host den derefter til dine kolleger.
+
+// ---------------------------------------------------------------
+
+const NTFY_TOPIC = 'jacob-hjaelper-alle-dotcom';
+
+ 
+
+const URGENCY = {
+
+  green: { word: 'Ingen hast', priority: 3, tag: 'green_circle' },
+
+  amber: { word: 'I dag',      priority: 4, tag: 'yellow_circle' },
+
+  red:   { word: 'Akut',       priority: 5, tag: 'rotating_light' },
+
+};
+
+ 
+
+const CONFIRM_MESSAGES = [
+
+  'Afsted! Din besked er på vej. 🚀',
+
+  'Sendt – nu er bolden givet videre.',
+
+  'Pling! Det er nu officielt ikke kun dit problem længere.',
+
+  'Mission afsendt – held og lykke derude!',
+
+  'Signalet lyser – hjælpen er på vej.',
+
+  'Din besked svæver nu igennem cyberspace ☁️',
+
+  'Klar, parat, sendt!',
+
+  'Tjek! Anmodningen er landet i indbakken.',
+
+  'Der er sat skub i sagen – tak for tålmodigheden.',
+
+  'Beskeden er afleveret. Nu er det op til os.',
+
+  'Noteret! Og afsted til hjælperen.',
+
+  'Sendt med et digitalt host og hej 👋',
+
+];
+
+ 
+
+const state = { theme: '', level: '' };
+
+const beacon = document.getElementById('beacon');
+
+const dots = document.querySelectorAll('.dot');
+
+let countdownInterval = null;
+
+ 
+
+function setStep(target) {
+
+  const current = document.querySelector('.step.active');
+
+  const next = document.querySelector('[data-step="' + target + '"]');
+
+  if (!next || current === next) return;
+
+ 
+
+  current.classList.add('leaving');
+
+  setTimeout(() => {
+
+    current.classList.remove('active', 'leaving');
+
+    current.style.display = 'none';
+
+    next.style.display = 'flex';
+
+    requestAnimationFrame(() => next.classList.add('active'));
+
+  }, 200);
+
+ 
+
+  if (target === 'done') {
+
+    dots.forEach(d => { d.classList.remove('active'); d.classList.add('done'); });
+
+  } else {
+
+    dots.forEach(d => {
+
+      const n = Number(d.dataset.dot);
+
+      d.classList.toggle('active', n === Number(target));
+
+      d.classList.toggle('done', n < Number(target));
+
+    });
+
+  }
+
+}
+
+ 
+
+document.querySelectorAll('[data-theme]').forEach(card => {
+
+  card.addEventListener('click', () => {
+
+    state.theme = card.dataset.theme;
+
+    setTimeout(() => setStep('2'), 150);
+
+  });
+
+});
+
+ 
+
+document.querySelectorAll('[data-level]').forEach(btn => {
+
+  btn.addEventListener('click', () => {
+
+    state.level = btn.dataset.level;
+
+    beacon.className = 'beacon ' + btn.dataset.level;
+
+    setTimeout(() => setStep('3'), 150);
+
+  });
+
+});
+
+ 
+
+document.querySelectorAll('[data-back]').forEach(btn => {
+
+  btn.addEventListener('click', () => {
+
+    const current = Number(document.querySelector('.step.active').dataset.step);
+
+    setStep(String(current - 1));
+
+  });
+
+});
+
+ 
+
+function generateRef() {
+
+  const d = new Date();
+
+  const pad = n => String(n).padStart(2, '0');
+
+  const datePart = '' + d.getFullYear() + pad(d.getMonth() + 1) + pad(d.getDate());
+
+  const rand = Math.random().toString(36).slice(2, 6).toUpperCase();
+
+  return datePart + '-' + rand;
+
+}
+
+ 
+
+function pickConfirmMessage() {
+
+  return CONFIRM_MESSAGES[Math.floor(Math.random() * CONFIRM_MESSAGES.length)];
+
+}
+
+ 
+
+function resetForm() {
+
+  clearInterval(countdownInterval);
+
+  state.theme = '';
+
+  state.level = '';
+
+  nameInput.value = '';
+
+  beacon.className = 'beacon';
+
+  setStep('1');
+
+}
+
+ 
+
+function startCountdown(seconds) {
+
+  let remaining = seconds;
+
+  const fill = document.getElementById('countdownFill');
+
+  const text = document.getElementById('countdownText');
+
+ 
+
+  fill.style.transition = 'none';
+
+  fill.style.width = '100%';
+
+  requestAnimationFrame(() => { fill.style.transition = 'width 1s linear'; });
+
+  text.textContent = 'Klar til en ny anmodning om ' + remaining + 's';
+
+ 
+
+  clearInterval(countdownInterval);
+
+  countdownInterval = setInterval(() => {
+
+    remaining--;
+
+    fill.style.width = Math.max(0, (remaining / seconds) * 100) + '%';
+
+    if (remaining > 0) {
+
+      text.textContent = 'Klar til en ny anmodning om ' + remaining + 's';
+
+    } else {
+
+      text.textContent = 'Nulstiller…';
+
+      clearInterval(countdownInterval);
+
+      setTimeout(resetForm, 400);
+
+    }
+
+  }, 1000);
+
+}
+
+ 
+
+const nameInput = document.getElementById('nameInput');
+
+const sendBtn = document.getElementById('sendBtn');
+
+const errorHint = document.getElementById('errorHint');
+
+ 
+
+sendBtn.addEventListener('click', async () => {
+
+  const name = nameInput.value.trim();
+
+  if (!name) {
+
+    nameInput.classList.add('invalid');
+
+    nameInput.focus();
+
+    return;
+
+  }
+
+  nameInput.classList.remove('invalid');
+
+  errorHint.hidden = true;
+
+  sendBtn.disabled = true;
+
+  sendBtn.textContent = 'Sender…';
+
+ 
+
+  const ref = generateRef();
+
+  const urgency = URGENCY[state.level];
+
+ 
+
+  const lines = [
+
+    'Fra: ' + name,
+
+    'Om: ' + state.theme,
+
+    'Prioritet: ' + urgency.word,
+
+  ];
+
+  lines.push('Sag: ' + ref);
+
+ 
+
+  const payload = {
+
+    topic: NTFY_TOPIC,
+
+    title: state.theme + ' — ' + urgency.word,
+
+    message: lines.join('\n'),
+
+    priority: urgency.priority,
+
+    tags: [urgency.tag],
+
+  };
+
+ 
+
+  try {
+
+    const res = await fetch('https://ntfy.sh', {
+
+      method: 'POST',
+
+      headers: { 'Content-Type': 'application/json' },
+
+      body: JSON.stringify(payload),
+
+    });
+
+    if (!res.ok) throw new Error('Request failed: ' + res.status);
+
+ 
+
+    document.getElementById('summaryText').textContent = pickConfirmMessage();
+
+    setStep('done');
+
+    startCountdown(8);
+
+  } catch (err) {
+
+    errorHint.hidden = false;
+
+  } finally {
+
+    sendBtn.disabled = false;
+
+    sendBtn.textContent = 'Send';
+
+  }
+
+});
+
+ 
+
+document.getElementById('resetBtn').addEventListener('click', resetForm);
+
+</script>
+
+</body>
+
+</html>
